@@ -1,0 +1,105 @@
+This is for all of our shared SQL Queries, any creates and insert statements created should be put in here for easy sharing!
+
+--------------------------------------- Customer Table
+ALTER TABLE customers
+ADD Password nvarchar(50);
+
+ALTER TABLE customers
+ADD Points int(6);
+
+// Do this first
+ALTER TABLE rewards
+DROP COLUMN PointsCost;
+
+//then this
+CREATE TABLE apprewards (
+    RewardId int NOT NULL AUTO_INCREMENT,
+    RwdName varchar(50),
+    RwdDescription varchar(300),
+    PointsCost int(6),
+    ImgName varchar(30),
+    CustomerId int,
+    PRIMARY KEY (RewardId),
+    FOREIGN KEY (CustomerId) REFERENCES customers(CustomerId)
+);
+
+//then this
+INSERT INTO apprewards (RwdName, RwdDescription, PointsCost, ImgName)
+VALUES ('Bus Ride to Banff', 'One free adult bus ticket to Banff from Calgary', 10000, 'banfflake'),
+('Airbnb Cash', 'Pay for some of your Airbnb stay with your rewards.', 15000, 'airbnb'),
+('Drumheller Baloon Ride', 'Romantic balloon ride for two over the Horseshoe Canyon Drumheller', 20000, 'drumballoon');
+
+//These queries are for someone starting from scratch with fresh db. Should be able to run it all in one go
+
+ALTER TABLE packages RENAME TO packagesalberta;
+
+ALTER TABLE classes RENAME TO bookingsclasses;
+
+ALTER TABLE packagesalberta MODIFY PkgDesc Text (1000) NOT NULL;
+
+ALTER TABLE packagesalberta
+ADD PkgLongDesc TEXT (1000) NOT NULL,
+ADD PkgHotelDesc TEXT (1000),
+ADD	PkgFoodDesc TEXT (1000),
+ADD	PkgCurrencyType varchar(5),
+ADD	PkgCostDesc varchar(255),
+ADD	PkgImageMain varchar(255) NOT NULL,
+ADD	PkgImageExtraActivity varchar(255),
+ADD	PkgImageHotel varchar(255),
+ADD	PkgImageFood varchar(255),
+ADD	PkgImageMap varchar(255),
+ADD	PkgFoodIncluded varchar(3) NOT NULL,
+ADD	PkgHotelIncluded varchar(3) NOT NULL,
+ADD	PkgFamilyFriendly varchar(3) NOT NULL,
+ADD	PkgNumNights INT(3) NULL,
+ADD	PkgNumOfGuests INT(3) NULL,
+ADD	PkgLocation VARCHAR(255),
+ADD	PkgLongitude DOUBLE,
+ADD PkgLatitude DOUBLE;
+
+
+---Drumheller Insert
+INSERT INTO `packagesalberta`( `PkgName`, `PkgStartDate`, `PkgEndDate`, `PkgDesc`, `PkgBasePrice`, `PkgAgencyCommission`, `PkgLongDesc`, `PkgHotelDesc`, `PkgFoodDesc`, `PkgCurrencyType`, `PkgCostDesc`, `PkgImageMain`, `PkgImageExtraActivity`, `PkgImageHotel`, `PkgImageFood`, `PkgImageMap`, `PkgFoodIncluded`, `PkgHotelIncluded`, `PkgFamilyFriendly`, `PkgNumNights`, `PkgNumOfGuests`, `PkgLocation`, `PkgLongitude`, `PkgLatitude`) VALUES ('Drumheller Fossil Excursion', '2020-12-25 00:00:00', '2021-01-04 00:00:00','Explore Dinosaur Provincial Park UNESCO World Heritage Site and learn why it was and is important to the First Nations people fossil hunters palaeontologists who came to this rugged part of Alberta in years past','75','10','Short hike with park interpreter.Experience the stunning views and harsh environment of the largest badlands in Canada.Interesting land formations and fossils including an in-situ hadrosaur femur','No Hotel is provided','Snacks with be provided','CA','per adult for the day','drumheller','drumheller',' ',' ','testmap','Yes','No','Yes','0','1','Township Road 210A','111.481690','50.759624');
+
+--Waterton Package Insert
+INSERT INTO `packagesalberta`( `PkgName`, `PkgStartDate`, `PkgEndDate`, `PkgDesc`, `PkgBasePrice`, `PkgAgencyCommission`, `PkgLongDesc`, `PkgHotelDesc`, `PkgFoodDesc`,
+ `PkgCurrencyType`, `PkgCostDesc`, `PkgImageMain`, `PkgImageExtraActivity`, `PkgImageHotel`, `PkgImageFood`, `PkgImageMap`, `PkgFoodIncluded`, `PkgHotelIncluded`,
+ `PkgFamilyFriendly`, `PkgNumNights`, `PkgNumOfGuests`, `PkgLocation`, `PkgLongitude`, `PkgLatitude`)
+VALUES ('Weekend In Waterton', '2020-12-27 00:00:00', '2021-01-04 00:00:00','2 meals at Wieners of Waterton, Dinner for 2 at Lakeside Steakhouse, 2 nights stay at Prince of Wales Hotel + complimentary packed lunch','1000','100','Come experience the refreshing national park of Waterton with our 2 night weekend trip! Stay at the extraordinary Prince of Wales Hotel, grab High Tea in the morning and take a ride on the Red Bus Tour. The following day you will get to enjoy a relaxing cruise across the lake where you can eat your amazing to-go lunch complementary with your Prince of Wales stay. 2 coupons for free meals at  watertons wiener house will also remind you of simpler times. Included in this package is also dinner for two at one of the best steak houses in Waterton! You wont want to miss this! 1 night stay at the Juniper Hotel in a standard room or deluxe room',
+ '2 Nights at the Prince of Wales Hotel', 'High Tea, Steak Dinner','CA','Price is for 2 guests','waterton', 'watertoncruise',
+ 'watertonhotel','watertontea','watertonmap','Yes','Yes','No','2','2',
+ 'Waterton National Parks Alberta','111.481690','50.759624');
+ 
+--Banff Package Insert
+INSERT INTO `packagesalberta`( `PkgName`, `PkgStartDate`, `PkgEndDate`, `PkgDesc`, `PkgBasePrice`, `PkgAgencyCommission`, `PkgLongDesc`, `PkgHotelDesc`, `PkgFoodDesc`,
+ `PkgCurrencyType`, `PkgCostDesc`, `PkgImageMain`, `PkgImageExtraActivity`, `PkgImageHotel`, `PkgImageFood`, `PkgImageMap`, `PkgFoodIncluded`, `PkgHotelIncluded`,
+ `PkgFamilyFriendly`, `PkgNumNights`, `PkgNumOfGuests`, `PkgLocation`, `PkgLongitude`, `PkgLatitude`)
+VALUES ('Snow to Summit', '2020-12-27 00:00:00', '2021-01-04 00:00:00','A trip to the Gondolas with winter rental and a Hotel','119','15','This is the best value package in Banff and perfect for those looking to embrace the winter with a getaway in the mountains!After a day of outdoor adventuring in the fresh air of Banff National Park, come home to your bright, comfortable guest room at the Juniper Hotel and relax.
+Choose a cozy standard room oriented to the deep greens of the forest or a deluxe room with an awe-inspiring valley view.Package includes a one night stay at the Juniper Hotel (standard room), Banff Gondola ticket and daily winter rental of your choice(skates, ice cleats, x-country skis, snowshoes). Rentals allow you to explore the best viewpoints in the valley while going at your own pace.
+This package is sure to provide you with a mountain fix.','1 night stay at the Juniper Hotel in a standard room or deluxe room',
+ 'No meals provided','CA','per adult for the day','banffsnowboarders', '','banffhotel','','banffmap','No','Yes','Yes','1','1',
+ 'Banff Alberta and surrounding area','111.481690','50.759624');
+
+
+DELETE FROM `packages_products_suppliers` WHERE `packages_products_suppliers`.`PackageId` = 1;
+DELETE FROM `packages_products_suppliers` WHERE `packages_products_suppliers`.`PackageId` = 2;
+DELETE FROM `packages_products_suppliers` WHERE `packages_products_suppliers`.`PackageId` = 3;
+DELETE FROM `packages_products_suppliers` WHERE `packages_products_suppliers`.`PackageId` = 4;
+
+
+DELETE FROM `packagesalberta` WHERE `packagesalberta`.`PackageId` = 1;
+DELETE FROM `packagesalberta` WHERE `packagesalberta`.`PackageId` = 2;
+DELETE FROM `packagesalberta` WHERE `packagesalberta`.`PackageId` = 3;
+DELETE FROM `packagesalberta` WHERE `packagesalberta`.`PackageId` = 4;
+
+
+
+-- EHSANS SQL --
+INSERT INTO `creditcards`(`CCName`, `CCNumber`, `CCExpiry`, `CustomerId`) VALUES ('MC','5591320188599581','2021-06-10 00:00:00',145)
+
+
+
+
+
+
+
